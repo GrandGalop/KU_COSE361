@@ -104,3 +104,59 @@ This assignment involves implementing **Minimax** and **Alpha-Beta Pruning** sea
 - The implemented algorithms are used to **control Pacman** in an **adversarial setting**.
 - The **game tree is dynamically built** based on **Pacman’s and ghosts’ actions**.
 - The **search depth** controls the complexity of decision-making.
+
+## **Minicontest 1**
+This project involves implementing **multi-agent search algorithms** to control multiple Pacman agents in a **maze environment**. The goal is to develop a custom search-based agent that efficiently collects food while avoiding unnecessary movements.
+
+### **2. MyAgent (Custom Multi-Agent Search)**
+- A **multi-agent search strategy** that considers multiple Pacman agents and distributes food collection more efficiently.
+- Uses a **collaborative search approach** to prevent agents from targeting the same food pellet.
+
+  **Implementation Details:**
+  - **Step 1:** First agent selects the **closest food pellet**.
+  - **Step 2:** Subsequent agents search for food **excluding** the ones targeted by previous agents.
+  - **Step 3:** Once food count is low, agents behave like **ClosestDotAgent**.
+
+  **Key Features:**
+  - Introduces a **"virtual state" concept**, where food locations assigned to other agents are temporarily removed.
+  - Uses **Priority Queue Search** to find optimal paths.
+  - Prevents **agents from overlapping** and **reduces redundant paths**.
+
+# **Minicontest 2: Competitive Multi-Agent Search in Pacman**
+This project involves designing a **competitive multi-agent search algorithm** for Pacman, where agents must **maximize their score** while competing against an opposing team. The goal is to develop an **intelligent Pacman agent** that effectively balances **offensive food collection** and **defensive strategies** to prevent opponents from scoring.
+
+The implemented **competitive agent** consists of two specialized roles:
+
+1. **Offensive Agent** - Focuses on collecting food while avoiding enemy agents.
+
+2. **Defensive Agent** - Guards the home territory and prevents the opponent from scoring.
+
+### **1. Offensive Strategy**
+The **offensive agent** aims to:
+- Prioritize **nearest food pellets** while avoiding enemy ghosts.
+- Escape when carrying **at least two food items** if an enemy is nearby.
+- Avoid taking actions that place it within **two tiles of an enemy**.
+
+#### **Implementation Details**
+- Uses **feature-based evaluation** to determine the best action.
+- Computes **distance to nearest food** and **distance to the nearest enemy**.
+- Uses a weighted scoring function:
+
+  $$\text{Score} = (100 \times \text{successorScore}) - (\text{distanceToFood}) - (10 \times \text{distanceToEnemy})$$
+
+- If **carrying 2+ food**, the agent prioritizes returning to safety.
+
+### **2. Defensive Strategy**
+The **defensive agent** aims to:
+- **Detect and chase invaders** (opposing Pacman agents).
+- **Patrol the territory** when no invaders are present.
+- Avoid unnecessary **stopping or backtracking**.
+
+#### **Implementation Details**
+- Tracks **invading Pacman agents** and moves toward the nearest intruder.
+- If no invaders are detected, stays in **key defensive positions**.
+- Uses the following weighted evaluation function:
+
+  $$\text{Score} = (-1000 \times \text{numInvaders}) + (100 \times \text{onDefense}) - (10 \times \text{invaderDistance}) - (100 \times \text{stop}) - (2 \times \text{reverse})$$
+  
+- Penalizes **stopping** or moving **in reverse**, ensuring proactive movement.
